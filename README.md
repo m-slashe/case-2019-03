@@ -1,3 +1,7 @@
+# Rodando o projeto
+
+Para rodar o projeto é necessario utilizar o comando `docker compose up`, caso esteja sendo utilizado um docker diferente do Docker toolbox, deve ser necessario mudar no docker-compose.yml a variavel de ambiente "VUE_APP_BACKEND_URL" de 192.168.99.100 para localhost
+
 ## Sobre a Vitta
 
 A Vitta nasceu com a missão de transformar a saúde do Brasil. Em poucos anos se tornou uma das maiores startups de health tech no mercado, e mesmo com o crescimento, mantemos em nosso DNA a inovação, a experiência, a praticidade e a segurança.
