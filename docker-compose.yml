@@ -1,0 +1,12 @@
+version: "3.0"
+services:
+  web:
+    build: ./webapp
+    env:
+      - VUE_APP_BACKEND_URL: http://back:3000
+    depends_on:
+      - back
+  back:
+    build: ./back
+    env:
+      - PORT: 3000
