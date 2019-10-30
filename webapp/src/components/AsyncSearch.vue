@@ -12,7 +12,7 @@
     clearable
     return-object
   >
-    <template v-if="hideNoData" v-slot:no-data>
+    <template v-if="!hideNoData" v-slot:no-data>
       <v-list-item>
         <v-list-item-content>
           <v-list-item-title>
@@ -33,14 +33,14 @@ export default class extends Vue {
   private search: string = "";
   private isLoading = false;
   private items: any = [];
-  @Prop() private disabled: boolean;
-  @Prop() private value: any;
+  @Prop() private disabled!: boolean;
+  @Prop() private value!: any;
   @Prop() private onSearchItems!: any;
   @Prop() private itemText!: string;
   @Prop() private itemValue!: string;
-  @Prop() private label: string;
-  @Prop() private placeholder: string;
-  @Prop() private hideNoData: boolean;
+  @Prop() private label!: string;
+  @Prop() private placeholder!: string;
+  @Prop() private hideNoData!: boolean;
 
   @Watch("search")
   private async onSearch(value: string) {

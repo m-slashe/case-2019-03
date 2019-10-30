@@ -9,7 +9,7 @@
           item-text="name"
           item-value="id"
           label="Histórico"
-          hide-no-data
+          :hide-no-data="true"
         ></async-search>
       </v-col>
       <v-col class="centered-button">
@@ -77,13 +77,18 @@
         >
           <v-list-item-avatar>
             <v-img
-              :src="med.Bula || 'https://smartfar.com.br/loja2/media/catalog/product/cache/1/small_image/264x246/d15e909c169f361b245018b95f963ffd/r/e/remedio_2_2.jpg'"
+              :src="
+                med.Bula ||
+                  'https://smartfar.com.br/loja2/media/catalog/product/cache/1/small_image/264x246/d15e909c169f361b245018b95f963ffd/r/e/remedio_2_2.jpg'
+              "
             ></v-img>
           </v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title v-text="med.Nome"></v-list-item-title>
             <v-list-item-subtitle
-              v-text="med.ViaAdministracao + ' ' + med.Concentracao + med.Unidade"
+              v-text="
+                med.ViaAdministracao + ' ' + med.Concentracao + med.Unidade
+              "
             ></v-list-item-subtitle>
           </v-list-item-content>
           <v-list-item-action>
@@ -109,7 +114,7 @@ import { Vue, Component } from "vue-property-decorator";
 import { Utils } from "../services/Utils";
 import { BackendService } from "../services/BackendService";
 import { Client, Doctor, Medicine, Interaction, History } from "../types";
-import AsyncSearch from "../components/AsyncSearch";
+import AsyncSearch from "../components/AsyncSearch.vue";
 @Component({
   components: {
     AsyncSearch
@@ -138,7 +143,7 @@ export default class extends Vue {
   }
 
   getColor(nivel: string) {
-    let colors = {
+    let colors: { [key: string]: string } = {
       Leve: "green",
       Moderada: "yellow",
       Grave: "red"
@@ -239,7 +244,6 @@ export default class extends Vue {
     return BackendService.getInteractions(this.medicines).then(
       (interactions: Interaction[]) => {
         this.interactions = interactions;
-        console.log(this.interactions);
       }
     );
   }

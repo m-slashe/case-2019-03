@@ -1,12 +1,28 @@
 version: "3.0"
 services:
   web:
-    build: ./webapp
-    environment:
-      - VUE_APP_BACKEND_URL: http://back:3000
+    build:
+      context: ./webapp
+      args:
+        VUE_APP_BACKEND_URL: http://192.168.99.100:3000
+    restart: always
+    ports:
+      - "80:80"
     depends_on:
       - back
   back:
     build: ./back
+    restart: always
+    ports:
+      - "3000:3000"
     environment:
-      - PORT: 3000
+      - PORT=3000
+      - USE_JSON_SERVER=false
+  db:
+    image: mysql:8.0.18
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: example

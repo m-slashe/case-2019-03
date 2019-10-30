@@ -1,3 +1,4 @@
 *
 !dados
+!package*.json
 !index.js

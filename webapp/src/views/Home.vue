@@ -8,7 +8,7 @@
         item-text="name"
         item-value="id"
         label="Digite o nome do histórico desejado"
-        hide-no-data
+        :hide-no-data="true"
       ></async-search>
       <p class="label">OU</p>
       <async-search
@@ -28,7 +28,7 @@ import { Vue, Component } from "vue-property-decorator";
 import { Client, History } from "../types";
 import { BackendService } from "../services/BackendService";
 import { Utils } from "../services/Utils";
-import AsyncSearch from "../components/AsyncSearch";
+import AsyncSearch from "../components/AsyncSearch.vue";
 @Component({
   components: {
     AsyncSearch
@@ -45,9 +45,9 @@ export default class extends Vue {
     }
   }
 
-  private async onClientChange(event) {
+  private async onClientChange(event: string | Client) {
     let client = event;
-    if (typeof client !== "object") {
+    if (!Utils.isClient(client)) {
       client = (await BackendService.addUser(client)).data;
     }
     this.$root.$data.store.setCurrentClient(client);
