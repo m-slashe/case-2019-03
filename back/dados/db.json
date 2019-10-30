@@ -1,0 +1,6 @@
+{
+  "users": [{ "id": 1, "name": "Paciente 1" }],
+  "doctors": [{ "id": 1, "name": "Medico 1" }],
+  "interactions": [],
+  "history": []
+}
