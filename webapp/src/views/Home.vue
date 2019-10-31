@@ -12,9 +12,9 @@
       ></async-search>
       <p class="label">OU</p>
       <async-search
-        v-model="client"
-        :on-search-items="onClientSearch"
-        @change="onClientChange($event)"
+        v-model="patient"
+        :on-search-items="onPatientSearch"
+        @change="onPatientChange($event)"
         item-text="name"
         item-value="id"
         label="Digite o nome do paciente que esta procurando ou cadastre um novo!"
@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import { Client, History } from "../types";
+import { Patient, History } from "../types";
 import { BackendService } from "../services/BackendService";
 import { Utils } from "../services/Utils";
 import AsyncSearch from "../components/AsyncSearch.vue";
@@ -35,7 +35,7 @@ import AsyncSearch from "../components/AsyncSearch.vue";
   }
 })
 export default class extends Vue {
-  private client: Client | string | null = "";
+  private patient: Patient | string | null = "";
   private history: History | string = "";
 
   private onHistoryChange(history: History) {
@@ -45,17 +45,17 @@ export default class extends Vue {
     }
   }
 
-  private async onClientChange(event: string | Client) {
-    let client = event;
-    if (!Utils.isClient(client)) {
-      client = (await BackendService.addUser(client)).data;
+  private async onPatientChange(event: string | Patient) {
+    let patient = event;
+    if (!Utils.isPatient(patient)) {
+      patient = (await BackendService.addPatient(patient)).data;
     }
-    this.$root.$data.store.setCurrentClient(client);
+    this.$root.$data.store.setCurrentPatient(patient);
     this.$router.push("detail");
   }
 
-  onClientSearch(value: string) {
-    return BackendService.getUsers({
+  onPatientSearch(value: string) {
+    return BackendService.getPatients({
       name_like: value
     });
   }

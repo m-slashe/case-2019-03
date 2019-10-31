@@ -1,11 +1,11 @@
-import { History, Client, Doctor } from "../types";
+import { History, Patient, Doctor } from "../types";
 
 export class Utils {
   public static isHistory(obj: any): obj is History {
-    return obj && typeof obj === "object" && obj.hasOwnProperty("clientId");
+    return obj && typeof obj === "object" && obj.hasOwnProperty("patientId");
   }
 
-  public static isClient(obj: any): obj is Client {
+  public static isPatient(obj: any): obj is Patient {
     return typeof obj === "object";
   }
 

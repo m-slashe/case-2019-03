@@ -19,12 +19,12 @@
     <v-row>
       <v-col>
         <async-search
-          v-model="client"
-          :on-search-items="onClientSearch"
+          v-model="patient"
+          :on-search-items="onPatientSearch"
           item-text="name"
           item-value="id"
           label="Paciente"
-          @change="onClientChange($event)"
+          @change="onPatientChange($event)"
           :disabled="readOnly"
         ></async-search>
       </v-col>
@@ -113,7 +113,7 @@
 import { Vue, Component } from "vue-property-decorator";
 import { Utils } from "../services/Utils";
 import { BackendService } from "../services/BackendService";
-import { Client, Doctor, Medicine, Interaction, History } from "../types";
+import { Patient, Doctor, Medicine, Interaction, History } from "../types";
 import AsyncSearch from "../components/AsyncSearch.vue";
 @Component({
   components: {
@@ -121,7 +121,7 @@ import AsyncSearch from "../components/AsyncSearch.vue";
   }
 })
 export default class extends Vue {
-  private client: Client | string | null = "";
+  private patient: Patient | string | null = "";
   private doctor: Doctor | string | null = "";
   private medicine: Medicine | null = null;
   private medicines: Medicine[] = [];
@@ -133,8 +133,8 @@ export default class extends Vue {
     let selected = this.$root.$data.store.getCurrentSelected();
     if (Utils.isHistory(selected)) {
       this.history = selected;
-    } else if (Utils.isClient(selected)) {
-      this.client = selected;
+    } else if (Utils.isPatient(selected)) {
+      this.patient = selected;
     }
   }
 
@@ -163,14 +163,13 @@ export default class extends Vue {
 
   async addHistory() {
     if (
-      Utils.isClient(this.client) &&
+      Utils.isPatient(this.patient) &&
       Utils.isDoctor(this.doctor) &&
       typeof this.history === "string"
     ) {
-      let history = {
+      let history: History = {
         name: this.history,
-        date: new Date(),
-        clientId: this.client.id,
+        patientId: this.patient.id,
         doctorId: this.doctor.id,
         medicines: this.medicines.map(
           (medicine: Medicine) => medicine.IdMedicamento
@@ -198,15 +197,15 @@ export default class extends Vue {
     this.filteredMedicines = items;
   }
 
-  async onClientChange(client: Client | string) {
-    if (!Utils.isClient(client)) {
-      this.client = (await BackendService.addUser(client)).data;
+  async onPatientChange(patient: Patient | string) {
+    if (!Utils.isPatient(patient)) {
+      this.patient = (await BackendService.addPatient(patient)).data;
     }
   }
 
   async onDoctorChange(doctor: Doctor | string) {
     if (!Utils.isDoctor(doctor)) {
-      this.doctor = (await BackendService.addUser(doctor)).data;
+      this.doctor = (await BackendService.addDoctor(doctor)).data;
     }
   }
 
@@ -215,8 +214,8 @@ export default class extends Vue {
       this.$root.$data.store.setCurrentHistory(this.history);
       let promises = [];
       promises.push(
-        BackendService.getUsers({
-          id: this.history.clientId
+        BackendService.getPatients({
+          id: this.history.patientId
         })
       );
       promises.push(
@@ -230,10 +229,12 @@ export default class extends Vue {
           IdMedicamento_like: medicineRegExp
         })
       );
-      let [userResponse, doctorResponse, medicineResponse] = await Promise.all(
-        promises
-      );
-      this.client = userResponse.data[0];
+      let [
+        patientResponse,
+        doctorResponse,
+        medicineResponse
+      ] = await Promise.all(promises);
+      this.patient = patientResponse.data[0];
       this.doctor = doctorResponse.data[0];
       this.medicines = medicineResponse.data;
       this.loadInteraction();
@@ -254,8 +255,8 @@ export default class extends Vue {
     });
   }
 
-  onClientSearch(value: string) {
-    return BackendService.getUsers({
+  onPatientSearch(value: string) {
+    return BackendService.getPatients({
       name_like: value
     });
   }

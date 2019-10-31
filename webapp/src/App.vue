@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar app>
       <v-toolbar-title class="headline text-uppercase">
-        <span>...</span>
+        <span>Vitta Medicines</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
     </v-app-bar>

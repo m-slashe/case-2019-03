@@ -2,31 +2,31 @@ import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
 import vuetify from "./plugins/vuetify";
-import { Client } from "./types";
+import { Patient } from "./types";
 
 Vue.config.productionTip = false;
 
 type Store = {
-  client: Client | null;
+  patient: Patient | null;
   history: History | null;
-  setCurrentClient: (client: Client) => void;
+  setCurrentPatient: (client: Patient) => void;
   setCurrentHistory: (history: History) => void;
-  getCurrentSelected: () => Client | History | null;
+  getCurrentSelected: () => Patient | History | null;
 };
 
 let store: Store = {
-  client: null,
-  setCurrentClient(client: Client) {
+  patient: null,
+  setCurrentPatient(patient: Patient) {
     this.history = null;
-    this.client = client;
+    this.patient = patient;
   },
   history: null,
   setCurrentHistory(history: History) {
-    this.client = null;
+    this.patient = null;
     this.history = history;
   },
-  getCurrentSelected(): Client | History | null {
-    return this.client || this.history;
+  getCurrentSelected(): Patient | History | null {
+    return this.patient || this.history;
   }
 };
 

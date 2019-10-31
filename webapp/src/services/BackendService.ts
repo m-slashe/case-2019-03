@@ -12,14 +12,14 @@ export class BackendService {
     });
   }
 
-  public static getUsers(params?: any) {
-    return this.client.get("users", {
+  public static getPatients(params?: any) {
+    return this.client.get("patients", {
       params
     });
   }
 
-  public static addUser(user: string) {
-    return this.addItem("users", user);
+  public static addPatient(patient: string) {
+    return this.addItem("patients", patient);
   }
 
   public static getDoctors(params?: any) {
@@ -29,7 +29,7 @@ export class BackendService {
   }
 
   public static addDoctor(doctor: string) {
-    return this.addItem("doctor", doctor);
+    return this.addItem("doctors", doctor);
   }
 
   public static getMedicines(params?: any) {
@@ -39,13 +39,13 @@ export class BackendService {
   }
 
   public static getHistorys(params?: any) {
-    return this.client.get<History[]>("history", {
+    return this.client.get<History[]>("historys", {
       params
     });
   }
 
   public static addHistory(history: History) {
-    return this.client.post("history", history);
+    return this.client.post("historys", history);
   }
 
   public static async getInteractions(

@@ -29,13 +29,12 @@ export type Interaction = {
 
 export type History = {
   name: string;
-  date: Date;
-  clientId: number;
+  patientId: number;
   doctorId: number;
   medicines: number[];
 };
 
-export type Client = {
+export type Patient = {
   id: number;
   name: string;
 };
